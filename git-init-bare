@@ -1,0 +1,20 @@
+#!/bin/bash
+
+NAME=$1
+REPO=$NAME.git
+
+mkdir -p $REPO && (cd $REPO && git init --bare)
+echo -e "\
+#!/bin/bash\n\n\
+WORKDIR=\$(cd -P -- \"\$(dirname -- \"\$0\")\" && pwd -P)\n\
+PARENT=\$(cd \$WORKDIR && cd ../../ && pwd -P)\n\
+PROJECT=\$PARENT/$NAME
+if [ ! -d \$PROJECT ]; then
+    git clone file:////\$PARENT/$REPO \$PROJECT
+else
+    \$(cd \$PROJECT && git pull)
+fi
+" > $REPO/hooks/post-receive
+
+chmod +x $REPO/hooks/post-receive
+echo git remote add deploy ssh://core@localhost$(realpath $REPO)
