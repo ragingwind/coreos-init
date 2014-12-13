@@ -1,0 +1,17 @@
+#!/bin/bash
+
+PROJ=$1
+HOOKSH=$2
+mkdir -p $PROJ && (cd $PROJ && git init && git config receive.denycurrentbranch ignore)
+echo -e "\
+#!/bin/bash\n\n\
+REV=\$(expr substr \$(git rev-parse --verify HEAD) 1 7)\n\
+PROJECT=\$(cd -P -- "../../" && pwd -P)\n\
+\n\
+$HOOKSH
+" > $PROJ/.git/hooks/post-receive
+
+chmod +x $PROJ/.git/hooks/post-receive
+echo git remote add deploy ssh://core@localhost:22/$PROJ
+
+

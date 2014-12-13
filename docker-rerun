@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# docker-rerun [NAME] [DATA/SRC ROOTPATH]
+
+NAME=$1
+PORTS=$2
+VPARAMS=`cat $3`
+
+docker stop $NAME && docker rm $NAME
+docker run -i -d $PORTS $VPARAMS --name $NAME $NAME

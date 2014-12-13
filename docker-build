@@ -1,0 +1,10 @@
+#!/bin/sh
+
+TARGET=$1
+DOCKERFILE=$2
+
+if [ -z $DOCKERFILE ]; then
+	DOCKERFILE='.'
+fi
+
+(cd $DOCKERFILE && docker build -t $TARGET .)
