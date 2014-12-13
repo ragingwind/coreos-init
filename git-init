@@ -9,7 +9,7 @@ echo -e "\
 WORKDIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 REPO=$(cd $WORKDIR && cd ../../ && pwd -P)
 (cd $REPO && unset GIT_DIR && GIT_WORK_TREE=$REPO && git checkout -f)
-" > $REPO/hooks/post-receive
+" > $REPO/.git/hooks/post-receive
 
 chmod +x $REPO/.git/hooks/post-receive
-echo git remote add deploy ssh://core@localhost:22/$REPO
+echo git remote add deploy ssh://core@localhost:$(realpath $REPO)

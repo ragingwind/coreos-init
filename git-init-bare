@@ -18,4 +18,4 @@ fi
 " > $REPO/hooks/post-receive
 
 chmod +x $REPO/hooks/post-receive
-echo git remote add deploy ssh://core@localhost$(realpath $REPO)
+echo git remote add deploy ssh://core@localhost:$(realpath $REPO)
