@@ -5,14 +5,15 @@ REPO=$NAME.git
 
 mkdir -p $REPO && (cd $REPO && git init --bare)
 echo -e "\
-#!/bin/bash\n\n\
-WORKDIR=\$(cd -P -- \"\$(dirname -- \"\$0\")\" && pwd -P)\n\
-PARENT=\$(cd \$WORKDIR && cd ../../ && pwd -P)\n\
+#!/bin/bash
+
+WORKDIR=\$(cd -P -- \"\$(dirname -- \"\$0\")\" && pwd -P)
+PARENT=\$(cd \$WORKDIR && cd ../../ && pwd -P)
 PROJECT=\$PARENT/$NAME
 if [ ! -d \$PROJECT ]; then
-    git clone file:////\$PARENT/$REPO \$PROJECT
+        git clone file:////$(realpath $REPO) \$PROJECT
 else
-    \$(cd \$PROJECT && git pull)
+        (unset GIT_DIR && cd \$PROJECT && git pull)
 fi
 " > $REPO/hooks/post-receive
 
