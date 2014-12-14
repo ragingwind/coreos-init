@@ -1,10 +1,10 @@
 # CoreOS Initialing Tools - Raw level
 
-## git-init-bare-info
+## git-init
 
-Create a target repo and init git with bare option for serving then add shell command to delegate post-receive hooks service of git
+Create a target repo for bare git and you can register a shell command to get event from `post-receive` event of git when if git got new commits.
 
-    git-init-base [TARGET_REPO_PATH] [SHELL_COMMAND]
+    git-init [TARGET_REPO_PATH] [POST_RECEIVE_EVENT_HANDLER]
     
 ### Usage
     
